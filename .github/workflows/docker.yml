@@ -22,14 +22,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ssadok/sample-node-app
           tag_with_ref: true
-      - name: deploy to cluster
-        uses: steebchen/kubectl@v2.0.0
-        with: # defaults to latest kubectl binary version
-          config: ${{ secrets.KUBE_CONFIG_DATA }}
-          command: set image --record deployment/hello-world container=ssadok/sample-node-app:${GITHUB_REF##*/}
-      - name: verify deployment
-        uses: steebchen/kubectl@v2.0.0
+      - uses: danielr1996/kubectl-action@1.0.0
+        name: deploy to cluster
         with:
-          config: ${{ secrets.KUBE_CONFIG_DATA }}
-          version: v1.21.0 # specify kubectl binary version explicitly
-          command: rollout status deployment/hello-world
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          args: set image --record deployment/hello-world container=ssadok/sample-node-app:${GITHUB_REF##*/}
+      - uses: danielr1996/kubectl-action@1.0.0
+        name: verify deployment
+        with:
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          args: rollout status deployment/hello-world

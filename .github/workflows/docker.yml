@@ -28,7 +28,7 @@ jobs:
         name: deploy to cluster
         with:
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
-          args: set image --record deployment/hello-world container=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
+          args: set image --record deployment/hello-world hello-world=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
       - uses: danielr1996/kubectl-action@1.0.0
         name: verify deployment
         with:

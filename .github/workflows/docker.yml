@@ -24,14 +24,14 @@ jobs:
           repository: ssadok/sample-node-app
           tag_with_ref: true
       - name: deploy to cluster
-        uses: ghostzero/kubectl@v1
+        uses: gane5hvarma/kubectl-actions@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          command: set image --record deployment/hello-world hello-world=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
+          args: set image --record deployment/hello-world hello-world=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
       - name: verify deployment
-        uses: ghostzero/kubectl@v1
+        uses: gane5hvarma/kubectl-actions@master
         env:
           KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
         with:
-          command: rollout status deployment/hello-world
+          args: rollout status deployment/hello-world

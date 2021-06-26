@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+spec:
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world
+        image: ssadok/sample-node-app:v1.0.0
+        imagePullPolicy: "Always"
+        env:
+        - name: SERVER_PORT
+          value: "3000"
+        - name: DB_HOST
+          value: mymongo-mongodb
+        - name: DB_PORT
+          value: "27017"
+        - name: DB_NAME
+          value: sample
+        ports:
+        - name: hello-world
+          containerPort: 3000
+        resources: {}

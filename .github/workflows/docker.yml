@@ -23,13 +23,13 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ssadok/sample-node-app
           tag_with_ref: true
-      - uses: danielr1996/kubectl-action@1.0.0
-        name: deploy to cluster
+      - name: deploy to cluster
+        uses: steebchen/kubectl@v2.0.0
         with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
-          args: set image --record deployment/hello-world hello-world=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
-      - uses: danielr1996/kubectl-action@1.0.0
-        name: verify deployment
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: set image --record deployment/hello-world hello-world=ssadok/sample-node-app:${{ env.RELEASE_VERSION }}
+      - name: verify deployment
+        uses: steebchen/kubectl@v2.0.0
         with:
-          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
-          args: rollout status deployment/hello-world
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: rollout status deployment/hello-world
